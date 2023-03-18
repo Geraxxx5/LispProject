@@ -19,7 +19,7 @@ public class ParserExpressionTest {
         System.out.println("readFileExpression");
         //(cond ((> x y) (+ 5 2)) (t (- 5 2)))
         //(eval (quote (+ 5 2)))
-        String expression = "(cond ((> x y) (+ 5 2)) (t (- 5 2)))";
+        String expression = "(eval (quote (+ 5 2)))";
         boolean isFile = false;
         List<Object> expResult = Arrays.asList(Arrays.asList("eval",Arrays.asList("quote",Arrays.asList("+",5,2))));
         List<Object> result = ParserExpression.readFileExpression(expression, isFile);
