@@ -12,7 +12,7 @@ public class ProyectoAlgoritmosLisp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-	//En el dataToTest esta la sintaxis y las lineas para probar en el programa
+        //En el dataToTest esta la sintaxis y las lineas para probar en el programa
         //Se ingresan en el datos.txt (solo lee una linea)
         FunctionModel functionModel = new FunctionModel();
         VariableModel variableModel = new VariableModel();

@@ -113,7 +113,7 @@ public class EvaluateExpression {
      * 
      */
     public Object evaluate(List<Object> expr, VariableModel variable, FunctionModel functions){
-
+            
             //take the fisrt element of the expression to know if its a list, conditional, function, command
             Object firstElement = expr.get(0);
             
@@ -145,7 +145,7 @@ public class EvaluateExpression {
                         //[Quote, [+ 5 2]]
                         //return of quote is [+ 5 2]
                         //evaluate what is return in fron of eval
-                        //[Eval [+ 5 2]]
+                        //[Eval,[+ 5 2]]
                         //return 7
                         Object second = expressionList.get(1);
                         //if second its not a list then return second
@@ -194,7 +194,9 @@ public class EvaluateExpression {
                     }else if(oper.equals("atom")){
                         //If the expression in front of atom is greater than 1
                         //it mean that you can divide in more list the expression
+                        
                         String atom = String.valueOf(expressionList.get(1));
+                        //if(atom instanceof list)
                         if(atom.length()>1){
                             return "Nil";
                         }else{
@@ -208,7 +210,7 @@ public class EvaluateExpression {
                         
                         //cond can take 5 different ways of take the command
                         // 1: [Cond, [< 5 2]]
-                        // 2: [Cond, [[< 5 2] x]]
+                        // 2: [Cond, [[< 5 2], x]]
                         // 3: [Cond, [[< 5 2] x], [t, 5]]
                         // 4: [Cond, [[< 5 2] x], [t, 5]]
                         // 5: [Cond, [< 5 2], [t, 5]]
@@ -290,6 +292,7 @@ public class EvaluateExpression {
                         //List return a list of object
                         //So if in front of list its a list: 'List, [' a]'
                         //Evaluate all the expression in front of list and add to a list
+                        //list = [a,b,[a,b]]
                        
                         List<Object> list = new ArrayList<>();
 
@@ -335,9 +338,12 @@ public class EvaluateExpression {
                     double res1 = 0.0;
                     double res2 = 0.0;
                     Object value1 = expressionList.get(1);
+
                     Object value2 = null;
+
                     if(!oper.equals("sqrt")){
                         value2 = expressionList.get(2);
+
                     } 
                     if(value1 instanceof List){
                         List<Object> v = (List<Object>) value1;
@@ -347,19 +353,22 @@ public class EvaluateExpression {
                             res1 = Double.parseDouble(String.valueOf(symbolEvaluate(value1,variable)));
                         }else{
                             res1 = Double.parseDouble(String.valueOf(value1));
+
                         }
                         
                     }
                     if(!oper.equals("sqrt")){
                         if(value2 instanceof List){
                         List<Object> v = (List<Object>) value2;
-                        //res2 = (double) evaluate(v);
-                        res2 = Double.parseDouble(String.valueOf(evaluate(v,variable, functions)));
-                        }else{
-                            //res2 = (double) value2;
-                            if(value2 instanceof String){
-                                res2 = Double.parseDouble(String.valueOf(symbolEvaluate(value2,variable)));
 
+                        res2 = Double.parseDouble(String.valueOf(evaluate(v,variable, functions)));
+
+                        }else{
+                            
+                            if(value2 instanceof String){
+                                
+                                res2 = Double.parseDouble(String.valueOf(symbolEvaluate(value2,variable)));
+                                
                             }else{
                                 res2 = Double.parseDouble(String.valueOf(value2));
                             }
@@ -392,6 +401,7 @@ public class EvaluateExpression {
                     //Take the first and the second value and if value is a String than switch the String with the value
                     //Return "T" if true
                     //Return "Nil" if false
+                    //[< 5 2]
                     
                     double value1 = Double.parseDouble(String.valueOf(symbolEvaluate(expressionList.get(1),variable))); 
                     double value2 = Double.parseDouble(String.valueOf(symbolEvaluate(expressionList.get(2),variable)));
@@ -431,7 +441,7 @@ public class EvaluateExpression {
                     //it would call the params and the condition of the variable
                     //Then using a for, the values would be asign to their params
                     //Return evaluate the function
-                    
+
                     VariableModel varsFunction = new VariableModel();
                     List<Object> params = functions.getParams(oper);
                     List<Object> condition = functions.getCondition(oper);
@@ -457,6 +467,7 @@ public class EvaluateExpression {
                 return symbolEvaluate(firstElement, variable);
             }
             //If expression in greater than 1, it means that its more so would be evaluate
+            
             if(expr.size() > 1){
                 List<Object> subList = expr.subList(1, expr.size());
                 return evaluate(subList,variable, functions);
@@ -481,7 +492,7 @@ public class EvaluateExpression {
                 if(variable.varibaleExist(var)){
                     return Double.parseDouble(String.valueOf(variable.lastValue(var))); 
                 }else{
-                    throw new RuntimeException("Variable dosn't exist: "+var); 
+                    throw new RuntimeException("The variable does not exist: "+var); 
                 }
             }else if(symbol instanceof Integer){
                 return (int) symbol;

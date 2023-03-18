@@ -5,13 +5,19 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Gerax
+ */
 public class ParserExpression {
     
     /**
      *
      * @param fileRoute
      * @param isFile
-     * @return
+     * @return List<Object>
+     * 
+     * Read the file and return the expression parse
      */
     public static List<Object> readFileExpression(String fileRoute, boolean isFile){
         if(isFile){
@@ -42,7 +48,8 @@ public class ParserExpression {
     /**
      *
      * @param input
-     * @return
+     * @return expression
+     * Parse the expression
      */
     public static List<Object> parse(String input) {
         List<Object> result = new ArrayList<>();
@@ -66,6 +73,12 @@ public class ParserExpression {
         return result;
     }
 
+    /**
+     *
+     * @param atom
+     * @return Object
+     * Return the real value of the string
+     */
     private static Object parseAtom(String atom) {
         if (isInteger(atom)) {
             return Integer.parseInt(atom);
@@ -76,6 +89,13 @@ public class ParserExpression {
         }
     }
 
+    /**
+     *
+     * @param input
+     * @param start
+     * @return positionOfLastParen
+     * Return the matching paren of the parent sent
+     */
     private static int findMatchingParen(String input, int start) {
         int depth = 0;
         for (int i = start; i < input.length(); i++) {
@@ -92,6 +112,13 @@ public class ParserExpression {
         throw new IllegalArgumentException("Unmatched '('");
     }
 
+    /**
+     *
+     * @param input
+     * @param start
+     * @return positionOfendAtom
+     * find out how far the atom exists
+     */
     private static int findEndOfAtom(String input, int start) {
         int i = start;
         while (i < input.length() && !Character.isWhitespace(input.charAt(i)) && input.charAt(i) != ')') {
@@ -100,6 +127,11 @@ public class ParserExpression {
         return i;
     }
 
+    /**
+     *
+     * @param s
+     * @return isInteger
+     */
     private static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
@@ -109,6 +141,11 @@ public class ParserExpression {
         }
     }
 
+    /**
+     *
+     * @param s
+     * @return isDouble
+     */
     private static boolean isDouble(String s) {
         try {
             Double.parseDouble(s);
